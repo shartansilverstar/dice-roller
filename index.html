@@ -1,15 +1,15 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Single Dice Roller</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Dice Roller</title>
   <style>
     body {
       display: flex;
       height: 100vh;
       margin: 0;
-      background: #f4f4f4;
+      background: #f0f0f0;
       justify-content: center;
       align-items: center;
       font-family: sans-serif;
@@ -33,7 +33,7 @@
     .roll-text {
       margin-top: 1rem;
       font-size: 1.2rem;
-      color: #444;
+      color: #333;
     }
   </style>
 </head>
@@ -47,12 +47,20 @@
     const dice = document.getElementById('dice');
     const rollText = document.getElementById('rollText');
     const diceFaces = ["⚀", "⚁", "⚂", "⚃", "⚄", "⚅"];
+    let rolling = false;
 
     dice.addEventListener('click', () => {
-      const roll = Math.floor(Math.random() * 6);
-      dice.textContent = diceFaces[roll];
-      rollText.textContent = `You rolled a ${roll + 1}`;
-    });
-  </script>
-</body>
-</html>
+      if (rolling) return; // prevent spamming
+      rolling = true;
+
+      let rollCount = 0;
+      const rollInterval = setInterval(() => {
+        const tempFace = Math.floor(Math.random() * 6);
+        dice.textContent = diceFaces[tempFace];
+        rollCount++;
+        if (rollCount >= 15) { // ~1 second of spinning
+          clearInterval(rollInterval);
+          const finalRoll = Math.floor(Math.random() * 6);
+          dice.textContent = diceFaces[finalRoll];
+          rollText.textContent = `You rolled a ${finalRoll + 1}`;
+          rolling
