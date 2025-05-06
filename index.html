@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Single Dice Roller</title>
+  <style>
+    body {
+      display: flex;
+      height: 100vh;
+      margin: 0;
+      background: #f4f4f4;
+      justify-content: center;
+      align-items: center;
+      font-family: sans-serif;
+    }
+
+    .dice-container {
+      text-align: center;
+    }
+
+    .dice {
+      font-size: 6rem;
+      cursor: pointer;
+      user-select: none;
+      transition: transform 0.2s ease;
+    }
+
+    .dice:hover {
+      transform: scale(1.1);
+    }
+
+    .roll-text {
+      margin-top: 1rem;
+      font-size: 1.2rem;
+      color: #444;
+    }
+  </style>
+</head>
+<body>
+  <div class="dice-container">
+    <div class="dice" id="dice">🎲</div>
+    <div class="roll-text" id="rollText">Click the die to roll</div>
+  </div>
+
+  <script>
+    const dice = document.getElementById('dice');
+    const rollText = document.getElementById('rollText');
+    const diceFaces = ["⚀", "⚁", "⚂", "⚃", "⚄", "⚅"];
+
+    dice.addEventListener('click', () => {
+      const roll = Math.floor(Math.random() * 6);
+      dice.textContent = diceFaces[roll];
+      rollText.textContent = `You rolled a ${roll + 1}`;
+    });
+  </script>
+</body>
+</html>
