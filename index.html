@@ -20,14 +20,16 @@
       text-align: center;
     }
 
-    .dice {
+    button {
+      background: none;
+      border: none;
       font-size: 6rem;
       cursor: pointer;
       user-select: none;
       transition: transform 0.2s ease;
     }
 
-    .dice:hover {
+    button:hover {
       transform: scale(1.1);
     }
 
@@ -40,19 +42,26 @@
 </head>
 <body>
   <div class="dice-container">
-    <div class="dice" id="dice">🎲</div>
+    <button id="dice">🎲</button>
     <div class="roll-text" id="rollText">Click the die to roll</div>
   </div>
+
+  <audio id="rollSound" src="dice-roll.mp3" preload="auto"></audio>
 
   <script>
     const dice = document.getElementById('dice');
     const rollText = document.getElementById('rollText');
+    const rollSound = document.getElementById('rollSound');
     const diceFaces = ["⚀", "⚁", "⚂", "⚃", "⚄", "⚅"];
     let rolling = false;
 
     dice.addEventListener('click', () => {
       if (rolling) return;
       rolling = true;
+
+      // Try playing sound (may still be blocked in Notion)
+      rollSound.currentTime = 0;
+      rollSound.play().catch(() => {}); // ignore autoplay error
 
       let rollCount = 0;
       const rollInterval = setInterval(() => {
