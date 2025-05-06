@@ -1,0 +1,93 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Two Dice Roller</title>
+  <style>
+    body {
+      display: flex;
+      height: 100vh;
+      margin: 0;
+      background: #f0f0f0;
+      justify-content: center;
+      align-items: center;
+      font-family: sans-serif;
+    }
+    .dice-container {
+      text-align: center;
+    }
+    .dice-row {
+      display: flex;
+      justify-content: center;
+      gap: 2rem;
+    }
+    button {
+      background: none;
+      border: none;
+      font-size: 6rem;
+      cursor: pointer;
+      user-select: none;
+      transition: transform 0.2s ease;
+    }
+    button:hover {
+      transform: scale(1.1);
+    }
+    .roll-text {
+      margin-top: 1rem;
+      font-size: 1.4rem;
+      color: #333;
+    }
+  </style>
+</head>
+<body>
+  <div class="dice-container">
+    <div class="dice-row">
+      <button id="dice1">🎲</button>
+      <button id="dice2">🎲</button>
+    </div>
+    <div class="roll-text" id="rollText">Click either die to roll both</div>
+  </div>
+
+  <audio id="rollSound" src="../dice-roll.mp3" preload="auto"></audio>
+
+  <script>
+    const dice1 = document.getElementById('dice1');
+    const dice2 = document.getElementById('dice2');
+    const rollText = document.getElementById('rollText');
+    const rollSound = document.getElementById('rollSound');
+    const diceFaces = ["⚀", "⚁", "⚂", "⚃", "⚄", "⚅"];
+    let rolling = false;
+
+    function rollDice() {
+      if (rolling) return;
+      rolling = true;
+      rollSound.currentTime = 0;
+      rollSound.play().catch(() => {});
+
+      let rollCount = 0;
+      const rollInterval = setInterval(() => {
+        const face1 = Math.floor(Math.random() * 6);
+        const face2 = Math.floor(Math.random() * 6);
+        dice1.textContent = diceFaces[face1];
+        dice2.textContent = diceFaces[face2];
+        rollCount++;
+        if (rollCount >= 15) {
+          clearInterval(rollInterval);
+          const final1 = Math.floor(Math.random() * 6);
+          const final2 = Math.floor(Math.random() * 6);
+          dice1.textContent = diceFaces[final1];
+          dice2.textContent = diceFaces[final2];
+          const total = final1 + final2 + 2;
+          rollText.textContent = `You rolled ${final1 + 1} + ${final2 + 1} = ${total}`;
+          rolling = false;
+        }
+      }, 60);
+    }
+
+    dice1.addEventListener('click', rollDice);
+    dice2.addEventListener('click', rollDice);
+  </script>
+</body>
+</html>
