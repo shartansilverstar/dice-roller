@@ -1,6 +1,7 @@
+
 <!DOCTYPE html>
 <html lang="en">
-<head> 
+<head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Dice Roller</title>
@@ -50,7 +51,7 @@
     let rolling = false;
 
     dice.addEventListener('click', () => {
-      if (rolling) return; // prevent spamming
+      if (rolling) return;
       rolling = true;
 
       let rollCount = 0;
@@ -58,9 +59,15 @@
         const tempFace = Math.floor(Math.random() * 6);
         dice.textContent = diceFaces[tempFace];
         rollCount++;
-        if (rollCount >= 15) { // ~1 second of spinning
+        if (rollCount >= 15) {
           clearInterval(rollInterval);
           const finalRoll = Math.floor(Math.random() * 6);
           dice.textContent = diceFaces[finalRoll];
           rollText.textContent = `You rolled a ${finalRoll + 1}`;
-          rolling
+          rolling = false;
+        }
+      }, 60);
+    });
+  </script>
+</body>
+</html>
